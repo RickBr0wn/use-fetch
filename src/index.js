@@ -1,13 +1,13 @@
 import * as React from 'react'
 
 const useFetch = (url, options) => {
-  const componentIsMounted = React.useRef(true)
-  const [response, setResponse] = React.useState('')
+  const isMounted = React.useRef(true)
+  const [response, setResponse] = React.useState({})
   const [error, setError] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
-    if (componentIsMounted.current) {
+    if (isMounted.current) {
       setIsLoading(true)
       const fetchData = async function() {
         const resp = await fetch(url, options)
@@ -25,6 +25,7 @@ const useFetch = (url, options) => {
           })
           .catch(err => {
             console.log(err)
+            setIsLoading(false)
             setError(err)
           })
       }
@@ -32,7 +33,7 @@ const useFetch = (url, options) => {
     }
 
     return () => {
-      componentIsMounted.current = false
+      isMounted.current = false
     }
   }, [url, options])
 
