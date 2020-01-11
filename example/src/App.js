@@ -5,10 +5,19 @@ const App = () => {
   const [response, error, isLoading] = useFetch(
     `https://jsonplaceholder.typicode.com/users/`
   )
+
+  if (isLoading) {
+    // can be used for loading indicator/spinner etc.
+    return <h1>Loading..</h1>
+  }
+
+  if (error) {
+    // handle any error
+    console.log(error.message)
+  }
+
   return (
     <>
-      <pre>LOADING: {isLoading.toString()}</pre>
-      <pre>ERROR: {error.toString()}</pre>
       <pre>response: {JSON.stringify(response, null, 2)}</pre>
     </>
   )
