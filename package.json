@@ -1,6 +1,6 @@
 {
   "name": "@rickbrown/use-fetch",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A custom React hook to simplify the fetch API.",
   "author": "RickBr0wn",
   "license": "MIT",
