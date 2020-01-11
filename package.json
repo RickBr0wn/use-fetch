@@ -19,10 +19,11 @@
     "start": "rollup -c -w",
     "prepare": "yarn run build",
     "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "postpublish": "git push --tags"
   },
   "peerDependencies": {
-    "react": "^16.8.6"
+    "react": ">=16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -55,7 +56,9 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-standard": "^3.1.0",
+    "fetch-mock": "^8.2.1",
     "gh-pages": "^2.0.1",
+    "node-fetch": "^2.6.0",
     "react": "16.12.0",
     "react-scripts": "^3.0.1",
     "react-test-renderer": "16.12.0",
@@ -64,6 +67,10 @@
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
-    "rollup-plugin-url": "^2.1.0"
+    "rollup-plugin-url": "^2.1.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
