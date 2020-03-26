@@ -3,7 +3,7 @@ import { useFetch } from '@rickbrown/use-fetch'
 
 const App = () => {
   const [response, error, isLoading] = useFetch(
-    `https://jsonplaceholder.typicode.com/users/`
+    `https://jsonplaceholder.typicode.com/users/5`
   )
 
   if (isLoading) {
