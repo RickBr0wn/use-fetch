@@ -1,81 +1,37 @@
-import * as React from 'react'
-
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'BEGIN_FETCHING_DATA':
-      return Object.assign({}, state, { isLoading: true })
-    case 'SUCCESS_FETCHING_DATA':
-      return Object.assign({}, state, {
-        response: payload.response,
-        isLoading: payload.isLoading,
-        error: payload.error,
-      })
-    default:
-      return state
-  }
-}
-
-const initialState = {
-  response: null,
-  error: false,
-  isLoading: false,
-}
+import React from 'react'
 
 const useFetch = (url, options) => {
-  if (!url) {
-    return
-  }
-
   const isMounted = React.useRef(true)
-  const [state, dispatch] = React.useReducer(reducer, initialState)
-
-  function beginFetchingData() {
-    return { type: 'BEGIN_FETCHING_DATA' }
-  }
-
-  function successFetchingData() {
-    return {
-      type: 'SUCCESS_FETCHING_DATA',
-      payload: {
-        response: {
-          'end-point': url,
-          status: 200,
-          error: false,
-          'data-type': Array.isArray(jsonData) ? 'array' : typeof jsonData,
-          'data-length': jsonData.length,
-          data: jsonData,
-        },
-        isLoading: true,
-        error: null,
-      },
-    }
-  }
-
-  function errorFetchingData() {
-    return {
-      type: 'ERROR_FETCHING_DATA',
-      payload: {
-        response: null,
-        isLoading: false,
-        error: {
-          status: true,
-          message: 'error during fetch',
-        },
-      },
-    }
-  }
+  const [response, setResponse] = React.useState({})
+  const [error, setError] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
     if (isMounted.current) {
-      dispatch(beginFetchingData())
+      if (!url) {
+        return
+      }
+
+      setIsLoading(true)
+
       const fetchData = async function() {
         const resp = await fetch(url, options)
           .then(res => res.json())
           .then(jsonData => {
-            dispatch(successFetchingData())
+            setIsLoading(false)
+            setResponse({
+              'end-point': url,
+              status: 200,
+              error: false,
+              'data-type': Array.isArray(jsonData) ? 'array' : typeof jsonData,
+              'data-length': jsonData.length,
+              data: jsonData,
+            })
           })
           .catch(err => {
-            dispatch(errorFetchingData())
+            console.log(err)
+            setIsLoading(false)
+            setError(err)
           })
       }
       fetchData()
@@ -86,7 +42,7 @@ const useFetch = (url, options) => {
     }
   }, [url, options])
 
-  return [state.response, state.error, state.isLoading]
+  return [response, error, isLoading]
 }
 
 export { useFetch }
