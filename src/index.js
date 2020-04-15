@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 
 const useFetch = (url, options) => {
@@ -14,8 +15,9 @@ const useFetch = (url, options) => {
 
       setIsLoading(true)
 
-      const fetchData = async function() {
-        const resp = await fetch(url, options)
+      const fetchData = async function () {
+        // eslint-disable-next-line no-unused-vars
+        const response = await fetch(url, options)
           .then(res => res.json())
           .then(jsonData => {
             setIsLoading(false)
@@ -25,7 +27,7 @@ const useFetch = (url, options) => {
               error: false,
               'data-type': Array.isArray(jsonData) ? 'array' : typeof jsonData,
               'data-length': jsonData.length,
-              data: jsonData,
+              data: jsonData
             })
           })
           .catch(err => {

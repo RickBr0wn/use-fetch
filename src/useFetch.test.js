@@ -1,5 +1,5 @@
 import { useFetch } from './'
-import { renderHook, cleanup, act } from '@testing-library/react-hooks'
+import { renderHook, cleanup } from '@testing-library/react-hooks'
 import fetchMock from 'fetch-mock'
 
 const consoleError = console.error
@@ -18,7 +18,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   fetchMock.mock('test.com', () => ({
-    data: 'foo',
+    data: 'foo'
   }))
 })
 
@@ -50,7 +50,7 @@ describe('useFetch()', () => {
   })
 
   it('should set loading to true after initial call', () => {
-    const { result, waitForNextUpdate } = renderHook(() => useFetch('test.com'))
+    const { result } = renderHook(() => useFetch('test.com'))
     expect(result.current[2]).toBe(true)
   })
 
@@ -73,6 +73,7 @@ describe('useFetch()', () => {
   })
 
   it('should return error as true if there is a error', async () => {
+    // eslint-disable-next-line prefer-promise-reject-errors
     fetchMock.mock('failed.com', Promise.reject({ error: true }))
     const { result, waitForNextUpdate } = renderHook(() =>
       useFetch('failed.com')
