@@ -15,9 +15,8 @@ const useFetch = (url, options) => {
 
       setIsLoading(true)
 
-      const fetchData = async function () {
-        // eslint-disable-next-line no-unused-vars
-        const response = await fetch(url, options)
+      const fetchData = function () {
+        return fetch(url, options)
           .then(res => res.json())
           .then(jsonData => {
             setIsLoading(false)
