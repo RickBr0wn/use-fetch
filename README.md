@@ -80,13 +80,11 @@ const [{ data }, error, isLoading] = useFetch(
 
 ## Chaining Multiple Requests
 
-`use-fetch` will also accept a conditional statement. I will give an example by checking the URL. If there is no URL, we return, and the hook does nothing. This conditional allows us to use our hook multiple times in the same component, by using a ternary operator in the fetch call like this:
+`use-fetch` will also accept a conditional statement. I will give an example by checking the URL. In this example we only want to make the request for the `forecastData` when the first `fetch` call for `weatherData` has been resolved. So we can use a ternary operator in the second `fetch` call. If there is no `weatherData`, we just return, and the hook does nothing. This conditional allows us to use our hook multiple times in the same component:
 
 ```js
 const [weatherData, weatherError, weatherIsLoading] = useFetch(
-  coords.lat && coords.long
-    ? `http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.long}&APPID=${WEATHER_API_KEY}&units=metric`
-    : null
+  `http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.long}&APPID=${WEATHER_API_KEY}&units=metric`
 )
 
 const [forecastData, forecastError, forecastIsLoading] = useFetch(
