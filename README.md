@@ -45,6 +45,8 @@ const App = () => {
     console.log(error.message)
   }
 
+  // if the code reaches this point, loading has been completed and there is no error
+  // you have been returned a `response` object
   return (
     <>
       <pre>response: {JSON.stringify(response, null, 2)}</pre>
@@ -53,6 +55,27 @@ const App = () => {
 }
 
 export default App
+```
+
+## The `response` object
+
+```js
+{
+  'end-point': String,
+  status: Number,
+  error: Boolean,
+  'data-type': String,
+  'data-length': Number,
+  data: Object
+}
+```
+
+So, if you wanted to remove all the extra information, and you only want the `data` object, and you are only using the `use-fetch` hook once in your component, your API could look like this:
+
+```js
+const [{ data }, error, isLoading] = useFetch(
+  `https://jsonplaceholder.typicode.com/users/5`
+)
 ```
 
 ## Running the tests
