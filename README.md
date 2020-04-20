@@ -1,10 +1,10 @@
 # @rickbrown/use-fetch
 
-> A custom React hook to simplify the fetch API. This has been created as part of a blog post series. Part one can be seen [here](https://www.self-taught-and-fraught.com/react/use-fetch/)
-
 [![NPM](https://img.shields.io/npm/v/@rickbrown/use-fetch.svg)](https://www.npmjs.com/package/@rickbrown/use-fetch) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)]() [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) <span class="badge-npmdownloads"><a href="https://api.npmjs.org/downloads/point/last-month/@rickbrown/use-fetch" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/badges.svg" alt="NPM downloads" /></a></span> [![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/dwyl/hapi-auth-jwt2.svg?maxAge=2592000)](https://github.com/RickBr0wn/use-fetch?branch=master)
 
 <span class="badge-buymeacoffee"><a href="https://www.buymeacoffee.com/RickBrown" title="Donate to this project using Buy Me A Coffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg" alt="Buy Me A Coffee donate button" /></a></span>
+
+> A custom React hook to simplify the fetch API. This has been created as part of a blog post series. Part one can be seen [here](https://www.self-taught-and-fraught.com/react/use-fetch/)
 
 ## Getting Started
 
@@ -75,6 +75,24 @@ So, if you wanted to remove all the extra information, and you only want the `da
 ```js
 const [{ data }, error, isLoading] = useFetch(
   `https://jsonplaceholder.typicode.com/users/5`
+)
+```
+
+## Chaining Multiple Requests
+
+`use-fetch` will also accept a conditional statement. I will give an example by checking the URL. If there is no URL, we return, and the hook does nothing. This conditional allows us to use our hook multiple times in the same component, by using a ternary operator in the fetch call like this:
+
+```js
+const [weatherData, weatherError, weatherIsLoading] = useFetch(
+  coords.lat && coords.long
+    ? `http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.long}&APPID=${WEATHER_API_KEY}&units=metric`
+    : null
+)
+
+const [forecastData, forecastError, forecastIsLoading] = useFetch(
+  weatherData.data
+    ? `http://api.openweathermap.org/data/2.5/forecast/daily?id=${weatherData.data.id}&appid=${WEATHER_API_KEY}`
+    : null
 )
 ```
 
